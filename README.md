@@ -12,7 +12,9 @@
 
     2.올라온 View를 터치로 제어할수있도록 구현
 
-    3.올라온 View 가 터치로 인하여 아래로 내려갈수록  Opacity 조절 
+    3.올라온 View 가 터치로 인하여 아래로 내려갈수록  Opacity 조절
+
+    4.children 로 자식뷰 설정 가능
 </pre>
 
 ## SUMMARY
@@ -22,5 +24,6 @@
 
 ## START
 <pre>
+    npm install
     react-native start
 </pre>

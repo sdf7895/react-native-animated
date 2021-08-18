@@ -1,8 +1,13 @@
 import React, { useState,useRef,useEffect } from "react";
 import { Animated, View, StyleSheet, PanResponder, Text, Button, Modal, KeyboardAvoidingView } from "react-native";
+import PropTypes from "prop-types";
 
 /* 
   transform = 변환이라는 의미
+*/
+
+/* 
+  npm install --save-dev prop-types
 */
 
 /* 
@@ -25,9 +30,9 @@ const SUPPORTED_ORIENTATIONS = [
 ];
 
 
-const App = () => {
+const App = (children) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [isOpacity, setOpacity] = useState(0);
+  const [isOpacity, setOpacity] = useState(10);
   const pan = useRef(new Animated.ValueXY()).current;
   let animatedHeight = new Animated.Value(0)
 
@@ -67,7 +72,10 @@ const App = () => {
            Animated.event([null, { dy: pan.y}], { useNativeDriver: false})(e, gestureState);
 
           }
-          console.log(Number(gestureState.dy)/40)
+          // console.log(Number(gestureState.dy)/40);
+      },
+      onMoveShouldSetPanResponder: (e, gestureState) => {
+          console.log(gestureState)
       },
       onPanResponderRelease: (e, gestureState) => {
             if(500 / 4 - gestureState.dy < 0){
@@ -107,7 +115,7 @@ const App = () => {
             style={[pan.getTranslateTransform(), styles.container, { height: animatedHeight}]}
             >
             
-            <Text>안녕하세요~</Text>
+            {children}
           </Animated.View>
         </KeyboardAvoidingView>
       </Modal>
@@ -160,4 +168,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#ccc"
   }
 });
+
+App.propTypes = {
+  children: PropTypes.node
+}
+
+App.defaultProps = {
+  children: <View/>
+}
+
 export default App;
