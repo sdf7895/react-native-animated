@@ -1,5 +1,5 @@
 import React, { useState,useRef,useEffect } from "react";
-import { Animated, View, StyleSheet, PanResponder, Text, Button, Modal, KeyboardAvoidingView } from "react-native";
+import { Animated, View, StyleSheet, PanResponder, Text, Button, Modal, KeyboardAvoidingView,Image } from "react-native";
 import PropTypes from "prop-types";
 
 /* 
@@ -32,10 +32,11 @@ const SUPPORTED_ORIENTATIONS = [
 
 const App = (children) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [changeWidth,setWidth] = useState(420)
   const [isOpacity, setOpacity] = useState(10);
   const pan = useRef(new Animated.ValueXY()).current;
   let animatedHeight = new Animated.Value(0)
-
+  
   useEffect(() => {
     if(modalVisible) {
       Animated.timing(animatedHeight, {
@@ -67,12 +68,12 @@ const App = (children) => {
           /* 
             이벤트가 발생하면 Animated.View 로 이벤트가 발생되며 dy 는 제스쳐 이동거리이기때문에 그 이동거리만큼 Animated.View 안에 자식 View 가 움직이게 된다
           */
+         
          if(gestureState.dy > 0) {
-           
-           Animated.event([null, { dy: pan.y}], { useNativeDriver: false})(e, gestureState);
 
+           Animated.event([null, { dy: pan.y}], { useNativeDriver: false})(e, gestureState);
+           
           }
-          // console.log(Number(gestureState.dy)/40);
       },
       onMoveShouldSetPanResponder: (e, gestureState) => {
           console.log(gestureState)
@@ -114,12 +115,14 @@ const App = (children) => {
             {...panResponder.panHandlers}
             style={[pan.getTranslateTransform(), styles.container, { height: animatedHeight}]}
             >
-            
-            {children}
+              
+              <Image  source ={{uri : "https://reactjs.org/logo-og.png"}}
+                style={{width:changeWidth,height:200}}
+             />
+
           </Animated.View>
         </KeyboardAvoidingView>
       </Modal>
-
       <Button title='start' onPress={() => {setModalVisible(true)}}/>
     </>
   );
